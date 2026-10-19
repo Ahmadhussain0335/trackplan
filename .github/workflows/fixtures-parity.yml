@@ -25,7 +25,7 @@ jobs:
       - name: Shared fixtures (Dart)
         working-directory: dart
         run: |
-          dart pub get
+          dart pub get --no-example
           dart test test/fixtures_test.dart test/example_test.dart
 
       - name: Shared fixtures (TypeScript)

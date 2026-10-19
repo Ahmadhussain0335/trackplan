@@ -1,0 +1,11 @@
+version: 1
+
+targets:
+  dart:
+    output: lib/analytics.ts
+  typescript:
+    output: .git/hooks/pre-commit
+
+events:
+  app_opened:
+    description: User opened the app.

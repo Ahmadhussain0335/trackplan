@@ -1,0 +1,14 @@
+{
+  "file": "plan.yaml",
+  "error_count": 1,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP013",
+      "severity": "error",
+      "line": 1,
+      "column": 10,
+      "message": "Unsupported version 1.0. The only supported version is 1."
+    }
+  ]
+}

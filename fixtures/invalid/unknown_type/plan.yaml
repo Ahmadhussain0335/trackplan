@@ -1,0 +1,14 @@
+version: 1
+
+events:
+  checkout_completed:
+    description: User finished payment.
+    params:
+      total:
+        type: float
+      items:
+        type: string[]
+      note:
+        type: strng
+      flag:
+        type: whatever

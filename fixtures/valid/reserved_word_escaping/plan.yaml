@@ -1,0 +1,33 @@
+version: 1
+
+enums:
+  sort_key:
+    description: Values that collide with Dart enum members or keywords.
+    values: [index, value, values, default, name]
+
+events:
+  class:
+    description: Event named after a reserved word.
+    params:
+      new:
+        type: bool
+      default:
+        type: string
+      in:
+        type: int
+        required: false
+      type:
+        type: string
+        description: Contextual keywords such as type are not renamed.
+  to_string:
+    description: Collides with Object.toString in Dart.
+  constructor:
+    description: Collides with the class constructor in TypeScript.
+  delete:
+    description: JavaScript reserved word.
+    params:
+      key:
+        type: enum
+        enum: sort_key
+      int:
+        type: double

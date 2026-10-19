@@ -1,0 +1,14 @@
+{
+  "file": "plan.yaml",
+  "error_count": 1,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP005",
+      "severity": "error",
+      "line": 1,
+      "column": 11,
+      "message": "Unsupported line ending: use LF or CRLF."
+    }
+  ]
+}

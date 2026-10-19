@@ -1,0 +1,14 @@
+version: 1
+
+events:
+  rating_given:
+    description: User rated something.
+    params:
+      stars:
+        type: int
+        min: 5
+        max: 1
+      score:
+        type: double
+        min: 10.5
+        max: -2

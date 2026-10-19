@@ -1,0 +1,28 @@
+{
+  "file": "plan.yaml",
+  "error_count": 3,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP052",
+      "severity": "error",
+      "line": 5,
+      "column": 13,
+      "message": "Output path \"lib/analytics.ts\" must end with .dart."
+    },
+    {
+      "code": "TP050",
+      "severity": "error",
+      "line": 7,
+      "column": 13,
+      "message": "Output path \".git/hooks/pre-commit\" must be relative and stay inside the project."
+    },
+    {
+      "code": "TP052",
+      "severity": "error",
+      "line": 7,
+      "column": 13,
+      "message": "Output path \".git/hooks/pre-commit\" must end with .ts, .mts or .cts."
+    }
+  ]
+}

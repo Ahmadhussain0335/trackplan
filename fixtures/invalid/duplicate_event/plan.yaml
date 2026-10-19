@@ -1,0 +1,9 @@
+version: 1
+
+events:
+  checkout_completed:
+    description: User finished payment.
+  product_viewed:
+    description: User opened a product.
+  checkout_completed:
+    description: Same name again.

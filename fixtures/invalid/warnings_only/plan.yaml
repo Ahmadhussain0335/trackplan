@@ -1,0 +1,10 @@
+version: 1
+
+enums:
+  unused_enum:
+    values: [first, second]
+
+events:
+  app_opened:
+  app_closed:
+    owner: core-team

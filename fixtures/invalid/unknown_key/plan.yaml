@@ -1,0 +1,14 @@
+version: 1
+
+events:
+  checkout_completed:
+    descripton: Typo in description.
+    params:
+      coupon_code:
+        type: string
+        requried: false
+      total:
+        type: double
+        minimum: 0
+      quantity:
+        description: Has no type.

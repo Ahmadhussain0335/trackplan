@@ -1,0 +1,6 @@
+version: 1
+
+events:
+  app_opened:
+    description: "Trojan \u202E source"
+    owner: "bell \a char"

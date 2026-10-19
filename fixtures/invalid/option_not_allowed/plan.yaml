@@ -1,0 +1,26 @@
+version: 1
+
+enums:
+  color:
+    values: [red]
+
+events:
+  item_added:
+    description: Options that do not fit the type.
+    params:
+      name:
+        type: string
+        min: 1
+      quantity:
+        type: int
+        max_length: 3
+      color:
+        type: enum
+        enum: color
+        max: 2
+      flag:
+        type: bool
+        enum: color
+      labels:
+        type: list<string>
+        max_length: 10

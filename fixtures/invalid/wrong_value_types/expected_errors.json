@@ -1,0 +1,77 @@
+{
+  "file": "plan.yaml",
+  "error_count": 10,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP012",
+      "severity": "error",
+      "line": 4,
+      "column": 3,
+      "message": "Expected a string for \"name\", got a list."
+    },
+    {
+      "code": "TP012",
+      "severity": "error",
+      "line": 8,
+      "column": 18,
+      "message": "Expected a string for \"description\", got an integer."
+    },
+    {
+      "code": "TP012",
+      "severity": "error",
+      "line": 9,
+      "column": 11,
+      "message": "Expected a list for \"tags\", got a string."
+    },
+    {
+      "code": "TP012",
+      "severity": "error",
+      "line": 10,
+      "column": 17,
+      "message": "Expected a non-empty string for \"deprecated\", got an empty string."
+    },
+    {
+      "code": "TP012",
+      "severity": "error",
+      "line": 14,
+      "column": 19,
+      "message": "Expected a boolean for \"required\", got a string."
+    },
+    {
+      "code": "TP012",
+      "severity": "error",
+      "line": 15,
+      "column": 14,
+      "message": "Expected a number for \"min\", got a string."
+    },
+    {
+      "code": "TP037",
+      "severity": "error",
+      "line": 18,
+      "column": 14,
+      "message": "Invalid number 1.5 for \"min\": expected an integer."
+    },
+    {
+      "code": "TP037",
+      "severity": "error",
+      "line": 19,
+      "column": 14,
+      "message": "Invalid number 0x10 for \"max\": expected a decimal number."
+    },
+    {
+      "code": "TP037",
+      "severity": "error",
+      "line": 22,
+      "column": 21,
+      "message": "Invalid number 0 for \"max_length\": expected an integer of at least 1."
+    },
+    {
+      "code": "TP012",
+      "severity": "error",
+      "line": 23,
+      "column": 3,
+      "message": "Keys must be strings, got a boolean. Quote the key."
+    }
+  ]
+}

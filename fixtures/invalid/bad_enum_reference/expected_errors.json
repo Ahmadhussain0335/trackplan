@@ -1,0 +1,28 @@
+{
+  "file": "plan.yaml",
+  "error_count": 3,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP032",
+      "severity": "error",
+      "line": 13,
+      "column": 15,
+      "message": "Unknown enum \"payment_methods\". Did you mean \"payment_method\"?"
+    },
+    {
+      "code": "TP031",
+      "severity": "error",
+      "line": 15,
+      "column": 15,
+      "message": "Param \"currency\" has type enum but no \"enum\" key."
+    },
+    {
+      "code": "TP032",
+      "severity": "error",
+      "line": 18,
+      "column": 15,
+      "message": "Unknown enum \"sales_channel\"."
+    }
+  ]
+}

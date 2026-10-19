@@ -1,0 +1,16 @@
+version: 1
+
+targets:
+  dart:
+    output: ../outside/analytics.g.dart
+    class_name: analytics
+  typescript:
+    output: /etc/analytics.ts
+    class_name: AnalyticsAdapter
+
+settings:
+  warn_provider_limits: [firebase, mixpanel]
+
+events:
+  app_opened:
+    description: User opened the app.

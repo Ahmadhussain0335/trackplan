@@ -1,0 +1,14 @@
+{
+  "file": "plan.yaml",
+  "error_count": 1,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP007",
+      "severity": "error",
+      "line": 3,
+      "column": 15,
+      "message": "The file contains the disallowed character U+202E."
+    }
+  ]
+}

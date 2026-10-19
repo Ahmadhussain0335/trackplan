@@ -1,0 +1,42 @@
+{
+  "file": "plan.yaml",
+  "error_count": 5,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP050",
+      "severity": "error",
+      "line": 5,
+      "column": 13,
+      "message": "Output path \"../outside/analytics.g.dart\" must be relative and stay inside the project."
+    },
+    {
+      "code": "TP023",
+      "severity": "error",
+      "line": 6,
+      "column": 17,
+      "message": "Invalid class name \"analytics\": use PascalCase starting with A-Z."
+    },
+    {
+      "code": "TP050",
+      "severity": "error",
+      "line": 8,
+      "column": 13,
+      "message": "Output path \"/etc/analytics.ts\" must be relative and stay inside the project."
+    },
+    {
+      "code": "TP023",
+      "severity": "error",
+      "line": 9,
+      "column": 17,
+      "message": "Class name \"AnalyticsAdapter\" is reserved."
+    },
+    {
+      "code": "TP051",
+      "severity": "error",
+      "line": 12,
+      "column": 36,
+      "message": "Unknown provider \"mixpanel\". Supported providers: firebase."
+    }
+  ]
+}

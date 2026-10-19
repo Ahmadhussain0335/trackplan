@@ -1,0 +1,39 @@
+version: 1
+
+enums:
+  sort_order:
+    values: [newest, price_low, price_high]
+
+events:
+  search_performed:
+    description: User ran a search.
+    params:
+      query:
+        type: string
+        max_length: 100
+      result_count:
+        type: int
+        required: false
+        min: 0
+      sort:
+        type: enum
+        enum: sort_order
+        required: false
+      filters:
+        type: list<string>
+        required: false
+      in_stock_only:
+        type: bool
+        required: false
+  screen_viewed:
+    description: User opened a screen. Every param is optional.
+    params:
+      screen_name:
+        type: string
+        required: false
+        max_length: 40
+      load_time_ms:
+        type: double
+        required: false
+        min: 0
+        max: 60000

@@ -1,0 +1,14 @@
+{
+  "file": "plan.yaml",
+  "error_count": 0,
+  "warning_count": 1,
+  "diagnostics": [
+    {
+      "code": "TP118",
+      "severity": "warning",
+      "line": 6,
+      "column": 1,
+      "message": "Firebase: the plan has 501 events; the limit is 500 distinct events per app."
+    }
+  ]
+}

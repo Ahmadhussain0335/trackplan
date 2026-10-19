@@ -1,0 +1,21 @@
+{
+  "file": "plan.yaml",
+  "error_count": 2,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP021",
+      "severity": "error",
+      "line": 9,
+      "column": 7,
+      "message": "Param \"page1_id\" generates the same identifier \"page1Id\" as \"page_1_id\" (line 7)."
+    },
+    {
+      "code": "TP021",
+      "severity": "error",
+      "line": 11,
+      "column": 3,
+      "message": "Event \"step2_done\" generates the same identifier \"step2Done\" as \"step_2_done\" (line 4)."
+    }
+  ]
+}

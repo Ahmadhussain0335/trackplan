@@ -1,0 +1,37 @@
+version: 1
+
+targets:
+  dart:
+    class_name: Tracker
+  typescript:
+    class_name: Tracker
+
+enums:
+  app_theme:
+    description: Color theme of the app.
+    values: [light, dark, system]
+
+events:
+  profile_updated:
+    description: User saved changes to their profile.
+    params:
+      display_name:
+        type: string
+        description: Name shown to other users.
+        max_length: 50
+      age:
+        type: int
+        min: 13
+        max: 120
+      height_cm:
+        type: double
+        min: 0.5
+        max: 300
+      newsletter_opt_in:
+        type: bool
+      theme:
+        type: enum
+        enum: app_theme
+      interests:
+        type: list<string>
+        description: Topics the user follows.

@@ -1,0 +1,21 @@
+{
+  "file": "plan.yaml",
+  "error_count": 2,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP024",
+      "severity": "error",
+      "line": 5,
+      "column": 18,
+      "message": "\"description\" contains the disallowed character U+202E."
+    },
+    {
+      "code": "TP024",
+      "severity": "error",
+      "line": 6,
+      "column": 12,
+      "message": "\"owner\" contains the disallowed character U+0007."
+    }
+  ]
+}

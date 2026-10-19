@@ -1,0 +1,9 @@
+version: 1
+
+events:
+  app_opened:
+    description: User opened the app.
+    params:
+      screen:
+        <<: {type: string}
+        required: false

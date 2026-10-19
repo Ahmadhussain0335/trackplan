@@ -1,0 +1,18 @@
+version: 1
+
+events:
+  legacy_purchase:
+    description: Old purchase event.
+    deprecated: Use checkout_completed instead.
+  old_signup:
+    description: Sign-up event from app version 3.
+    deprecated: Replaced by sign_up_completed in app version 4.0.
+    owner: identity-team
+    params:
+      method:
+        type: string
+  checkout_completed:
+    description: User finished payment successfully.
+    params:
+      order_id:
+        type: string

@@ -1,0 +1,28 @@
+{
+  "file": "plan.yaml",
+  "error_count": 0,
+  "warning_count": 3,
+  "diagnostics": [
+    {
+      "code": "TP101",
+      "severity": "warning",
+      "line": 4,
+      "column": 3,
+      "message": "Enum \"unused_size\" is not used by any param."
+    },
+    {
+      "code": "TP100",
+      "severity": "warning",
+      "line": 8,
+      "column": 3,
+      "message": "Event \"app_opened\" has no description."
+    },
+    {
+      "code": "TP100",
+      "severity": "warning",
+      "line": 9,
+      "column": 3,
+      "message": "Event \"report_exported\" has no description."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+version: 1
+
+events:
+  app_opened:
+    description: &desc User opened the app.
+  app_resumed:
+    description: *desc

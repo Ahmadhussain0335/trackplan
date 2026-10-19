@@ -1,0 +1,5 @@
+version: 2
+
+events:
+  app_opened:
+    description: User opened the app.

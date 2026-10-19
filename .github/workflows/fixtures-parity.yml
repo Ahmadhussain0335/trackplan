@@ -1,0 +1,45 @@
+name: Fixtures parity
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: ts/package-lock.json
+
+      - name: Shared fixtures (Dart)
+        working-directory: dart
+        run: |
+          dart pub get
+          dart test test/fixtures_test.dart test/example_test.dart
+
+      - name: Shared fixtures (TypeScript)
+        working-directory: ts
+        run: |
+          npm ci
+          npx vitest run test/fixtures.test.ts
+          npm run build
+
+      - name: Dart and TypeScript report the same diagnostics and docs
+        run: node tool/parity.mjs
+
+      - name: Web example is up to date
+        working-directory: ts/examples/web
+        run: |
+          npm install
+          npx trackplan check

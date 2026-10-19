@@ -1,0 +1,30 @@
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# Secrets
+.env
+.env.*
+
+# Dart
+.dart_tool/
+build/
+dart/pubspec.lock
+coverage/
+doc/api/
+
+# Flutter example (lockfile is kept for the app, generated platform build output is not)
+dart/example/.flutter-plugins
+dart/example/.flutter-plugins-dependencies
+
+# Node / TypeScript
+node_modules/
+dist/
+*.tgz
+*.tsbuildinfo
+npm-debug.log*
+
+# Local project brief (not part of the repo)
+trackplan_claude_code_prompt.md

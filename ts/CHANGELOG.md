@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+- README: add a Versions section explaining how npm and Dart package versions
+  relate. No code changes.
+
 ## 0.2.0
 
 First release. The version matches the Dart package `trackplan` 0.2.0 on

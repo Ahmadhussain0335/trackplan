@@ -1,6 +1,6 @@
 {
   "name": "trackplan",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Type-safe analytics code generator. Turns one YAML tracking plan into TypeScript code so typos and missing event parameters become compile errors.",
   "keywords": [
     "analytics",

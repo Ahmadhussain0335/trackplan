@@ -295,6 +295,13 @@ for (const d of result.diagnostics) console.log(formatDiagnostic(d, 'tracking_pl
 if (result.plan) console.log(generateTypescript(result.plan, 'tracking_plan.yaml'));
 ```
 
+## Versions
+
+The npm package and the [Dart package](https://pub.dev/packages/trackplan)
+share major and minor versions: `0.2.x` of both validate plans and report
+diagnostics the same way. Patch versions can differ when a release only
+changes one package's documentation.
+
 ## Privacy
 
 trackplan makes no network calls and collects no telemetry. Analytics

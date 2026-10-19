@@ -12,12 +12,16 @@
 .dart_tool/
 build/
 dart/pubspec.lock
+dart/example/pubspec.lock
 coverage/
 doc/api/
 
-# Flutter example (lockfile is kept for the app, generated platform build output is not)
+# Flutter example: no lockfile, no platform folders (keeps the pub package small)
 dart/example/.flutter-plugins
 dart/example/.flutter-plugins-dependencies
+dart/example/android/
+dart/example/ios/
+dart/example/.metadata
 
 # Node / TypeScript
 node_modules/

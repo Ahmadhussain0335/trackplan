@@ -1,0 +1,45 @@
+version: 1
+
+meta:
+  name: Shop App
+  description: Analytics events for the Shop web example.
+
+targets:
+  typescript:
+    output: src/analytics/analytics.ts
+    class_name: Analytics
+
+enums:
+  payment_method:
+    description: How the user paid.
+    values: [card, paypal, cash]
+
+events:
+  checkout_completed:
+    description: User finished payment successfully.
+    owner: growth-team
+    tags: [checkout, revenue]
+    params:
+      order_id:
+        type: string
+        description: Unique order ID.
+      total:
+        type: double
+        min: 0
+      payment_method:
+        type: enum
+        enum: payment_method
+      coupon_code:
+        type: string
+        required: false
+        max_length: 32
+
+  product_viewed:
+    description: User opened a product detail screen.
+    params:
+      product_id:
+        type: string
+      position:
+        type: int
+        required: false
+        min: 0

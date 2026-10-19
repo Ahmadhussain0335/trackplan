@@ -1,0 +1,16 @@
+{
+  "name": "trackplan-example-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "trackplan generate",
+    "check": "trackplan check",
+    "build": "tsc",
+    "start": "node dist/main.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "trackplan": "file:../..",
+    "typescript": "~5.9.3"
+  }
+}

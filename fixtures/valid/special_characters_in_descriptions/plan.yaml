@@ -21,6 +21,12 @@ events:
 
       Third line after a blank line.  
       Line after trailing spaces.
+    params:
+      detail:
+        type: string
+        description: |
+          First line of a param description.
+          Second line, after a line break.
   unicode_text:
     description: "Café, naïve, 日本語, emoji 😀 and a tab:\there."
   deprecated_with_quotes:

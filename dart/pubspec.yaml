@@ -1,0 +1,32 @@
+name: trackplan
+description: >-
+  Type-safe analytics code generator. Turns one YAML tracking plan into Dart
+  code so typos and missing event parameters become compile errors.
+version: 0.1.0
+repository: https://github.com/OWNER/trackplan
+issue_tracker: https://github.com/OWNER/trackplan/issues
+topics:
+  - analytics
+  - codegen
+  - cli
+  - type-safety
+  - tracking
+
+environment:
+  sdk: ^3.11.0
+
+executables:
+  trackplan:
+
+dependencies:
+  args: ^2.7.0
+  dart_style: ^3.1.14
+  path: ^1.9.1
+  # Required by the dart_style API (DartFormatter takes a Version).
+  pub_semver: ^2.1.4
+  yaml: ^3.1.4
+
+dev_dependencies:
+  coverage: ^1.16.0
+  lints: ^6.1.0
+  test: ^1.33.0

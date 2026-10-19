@@ -107,6 +107,12 @@ Where a number is expected, both `an integer` and `a number` are accepted
 (then Section 2.8 applies). A string that is empty or contains only
 whitespace counts as `an empty string`.
 
+"Whitespace" in this spec always means exactly these four characters: space
+(U+0020), tab (U+0009), line feed (U+000A) and carriage return (U+000D).
+Other Unicode spaces such as U+00A0 or U+3000 are ordinary characters.
+Implementations must not use their language's general `trim` functions for
+this.
+
 ### 2.2.2 `version`
 
 `version` must be a plain scalar whose source text is exactly `1`. A value
@@ -135,9 +141,15 @@ Output paths are relative to the directory the CLI runs in. Both `/` and `\`
 count as separators. A path starting with `/`, `\` or a drive letter (`C:`)
 counts as absolute. The validator checks the text of the path:
 
-- it must not be empty, absolute, or contain a `..` or `.git` segment (TP050,
+- it must not contain a tab, line feed or any character from the disallowed
+  set of Section 2.9 (TP024), so a plan cannot inject control sequences into
+  CI logs through file names
+- it must not be empty, absolute, contain `:` (other than a leading drive
+  letter), or contain a `..` or `.git` segment (TP050,
   unless the CLI is run with `--allow-outside`, which lifts only the absolute
-  and `..` rules)
+  and `..` rules). A segment counts as `.git` after removing trailing dots
+  and spaces and ignoring case (Windows treats `.GIT.` as `.git`), and
+  `git~1` (any digits) counts too, because it is the Windows short name.
 - `targets.dart.output` must end with `.dart`; `targets.typescript.output`
   must end with `.ts`, `.mts` or `.cts` (TP052)
 
@@ -171,7 +183,9 @@ enums:
 - `values` items must be strings and follow the name rule (TP020). Plain
   values that YAML reads as other types (`true`, `null`, `1`) are TP012.
 - Values must be unique within the enum (TP035), including after case
-  conversion (TP021).
+  conversion (TP021). Every item that breaks the name rule gets TP020, and
+  every repeat of an earlier item gets TP035, so `[Bad, Bad]` produces TP020,
+  TP020 and TP035.
 - An enum that no param uses is a warning (TP101).
 
 ### 2.7 `events`
@@ -181,7 +195,7 @@ events:
   checkout_completed:          # event name, snake_case
     description: User finished payment successfully.   # should be present (TP100)
     owner: growth-team         # optional, docs and doc comments
-    tags: [checkout, revenue]  # optional, docs only
+    tags: [checkout, revenue]  # optional, docs only; items must not be blank
     deprecated: Use checkout_completed instead.        # optional, non-empty reason
     params:                    # optional
       order_id:                # param name, snake_case
@@ -233,8 +247,8 @@ and `tags` items are free text. They may contain any character except:
 Violations are TP024, reported once per value, for its first disallowed
 character. Free text is escaped for each output (Section 7.6).
 
-A `description` that is empty or only whitespace counts as absent (TP100
-for events). `deprecated` must not be empty or only whitespace (TP012).
+A `description`, `owner` or `meta.name` that is empty or only whitespace
+counts as absent (TP100 for event descriptions). `deprecated` must not be empty or only whitespace (TP012).
 
 `meta.name`, `owner` and `tags` items are single-line in all outputs: line
 breaks in them are replaced with a space. Descriptions and `deprecated` keep
@@ -353,12 +367,14 @@ An enum whose PascalCase name, or a `class_name`, is one of these is rejected
   `DebugAnalyticsAdapter`, `RecordingAnalyticsAdapter`
 - Core types and globals that generated code uses or that commonly clash:
   `Array`, `Boolean`, `Date`, `Deprecated`, `Enum`, `Error`, `Function`,
-  `Iterable`, `JSON`, `List`, `Map`, `Never`, `Null`, `Number`, `Object`,
+  `Iterable`, `JSON`, `List`, `Map`, `MapEntry`, `Never`, `Null`, `Number`, `Object`,
   `Promise`, `RangeError`, `Readonly`, `Record`, `Set`, `String`, `Symbol`,
   `Type`
 
 An enum is also rejected (TP022) if its PascalCase name equals either target's
-`class_name`.
+`class_name` (or `Analytics` when that target has no `class_name`). An invalid
+`class_name` (TP023) is not compared with enum names. TP022 is reported even
+when the same enum also has TP021.
 
 Private members in generated code start with `_` (`_adapters`, `_track`), so
 they can never collide with a generated name.
@@ -377,12 +393,19 @@ Where the position points:
   of the key.
 - **A value**: the first character of the value (for a quoted scalar, the
   opening quote). This is used only when the value is a single-line plain or
-  quoted scalar. For a collection, an empty value, or a block scalar (`|`,
-  `>`), the position of its key is used instead.
+  quoted scalar that is not null. For a collection, a null value (empty, `~`
+  or `null`), or a block scalar (`|`, `>`), the position of its key is used
+  instead.
 - **A sequence item**: the first character of the item. Block (`- a`) and flow
-  (`[a, b]`) sequences behave the same.
+  (`[a, b]`) sequences behave the same. For an item that is a collection, null
+  or a block scalar, the position of the sequence's key is used instead.
+- Columns on line 1 are counted after a leading byte order mark is removed.
 - **The whole file** (missing root key, root not a mapping, invalid UTF-8):
   `1:1`.
+- **TP003**: the key of the innermost mapping entry whose value contains the
+  unsupported node. For a merge key or complex key, that is the entry of the
+  mapping that holds the key (for example `screen:` for a `<<:` inside it).
+  `1:1` if there is no such entry.
 - **TP001**: the position the YAML parser reports. It is shown to the user,
   but it is not compared between the two tools, because their parsers report
   syntax errors differently.
@@ -399,19 +422,29 @@ To keep the two tools in step, checks are skipped in these cases:
    3. TP007 (disallowed raw character; the first one in the file)
    4. TP003 for directives (the first `%` line)
    5. TP001 or TP002, whichever comes first in the document (Dart's parser
-      stops at the first of the two it meets)
+      stops at the first of the two it meets). When Dart's parser rejects a
+      core tag (for example `!!int abc`), the tag is blanked out and the file
+      is parsed again; after 20 such tags the Dart tool reports TP003 at the
+      first of them without parsing further. Both tools exit with 1; the
+      position may differ for such a file.
    6. TP003 for anchors, aliases, tags, merge keys and complex keys (the
       first one in document order)
    7. TP004 (root is not a mapping)
 2. A name that fails TP020 is not checked for TP021, TP022, or reserved
    words, and is skipped by provider checks.
 3. A param whose `type` is missing, unknown, or not a string is not checked
-   for TP031–TP033 or TP036–TP037.
+   for TP031–TP033 or TP036–TP037, and its `min`, `max`, `max_length` and
+   `enum` values are not type-checked (no TP012 for them).
 4. A value with the wrong YAML type (TP012) is not checked further.
 5. TP036 (`min` > `max`) is only checked when both numbers passed TP037.
 6. TP101 (unused enum) is only checked when the plan has no errors.
 7. An enum with an invalid name (TP020) still counts as defined, so params
    that reference it do not also get TP032.
+8. Counts (TP014 empty `events`, TP113, TP118) include entries whose keys
+   are not strings, so a mapping with only a `1:` key is not "empty".
+9. Provider checks: TP110–TP113 are skipped for an event with an invalid
+   name; TP114–TP117 are skipped for a param with an invalid name. Params of
+   an event with an invalid name are still checked.
 
 ### 5.3 Ordering and exit codes
 
@@ -468,7 +501,7 @@ for future codes.
 | Code | Fatal | Check | Position | Message |
 |---|---|---|---|---|
 | TP001 | yes | Invalid YAML syntax, or more than one document | Parser's own | `Invalid YAML: <parser message>` |
-| TP002 | yes | Duplicate key in a mapping (only the first one in document order is reported) | The second key | `Duplicate key "<key>".` |
+| TP002 | yes | Duplicate key in a mapping (only the first one in document order is reported). Keys are compared by value, so `1` and `01` are duplicates, and two complex keys `[a]` are duplicates too (this TP002 wins over TP003). | The second key | `Duplicate key "<key>".` where key is the key's string value, or its source text if it is not a string |
 | TP003 | yes | Directive, anchor, alias, tag, merge key or complex key | Directive: `<line>:1`. Others: the nearest mapping key that contains it; `1:1` if none | `YAML <feature> are not supported in tracking plans.` where feature is `directives`, `anchors`, `aliases`, `tags`, `merge keys` or `complex keys` |
 | TP004 | yes | Empty file, or root is not a mapping | `1:1` | `The tracking plan must be a YAML mapping.` |
 | TP005 | yes | Lone CR line ending | The CR | `Unsupported line ending: use LF or CRLF.` |
@@ -629,7 +662,13 @@ user_engagement
   optional params use null-aware map elements (`'coupon_code': ?couponCode`),
   which the `use_null_aware_elements` lint in `package:lints` 6 asks for.
   Dart 3.8 shipped with Flutter 3.32.
-- Formatted with `dart_style` using the tall style.
+- Formatted with `dart_style` at language version 3.8 (tall style). The
+  version is pinned so that upgrading the tool's `dart_style` within the same
+  style does not change the output.
+- The line `// dart format off` follows the header, so `dart format` in the
+  user's project never rewrites the generated file. Without it, a user whose
+  SDK bundles a different `dart_style`, or whose package uses a newer language
+  version, could see `check` fail after running `dart format .`.
 - Must pass `dart analyze` with `package:lints/recommended.yaml` and
   `strict-casts`, `strict-inference`, `strict-raw-types`. The file starts with
   `// ignore_for_file: type=lint` so stricter lint sets in user projects do not
@@ -695,7 +734,7 @@ Free text never reaches generated code unescaped:
 
 | Where | Rule |
 |---|---|
-| Dart doc comment (`///`) | Each line of the text becomes its own `///` line. Trailing whitespace on each line and leading/trailing blank lines are removed. |
+| Dart doc comment (`///`) | Each line of the text becomes its own `///` line. Trailing whitespace (space and tab only) on each line and leading/trailing blank lines are removed. In the `Parameters:` list, continuation lines of a multi-line description are indented by two spaces. |
 | TS JSDoc (`/** */`) | Same line handling, with ` * ` prefixes. `*/` is written as `*\/`. |
 | Dart string literal (`@Deprecated`) | Single-quoted. `\` → `\\`, `'` → `\'`, `$` → `\$`, line feed → `\n`, tab → `\t`. |
 | Markdown docs | See Section 8. |
@@ -731,6 +770,9 @@ Text rules:
   as `&amp;`, `&lt;` and `&gt;` so the catalog cannot contain raw HTML.
 - In table cells, `|` is written as `\|` and line breaks as `<br>`.
 - Empty cells contain `-`.
+- A line of free text that starts with up to three spaces and then ```` ``` ````
+  or `~~~` gets a backslash before the fence characters, so a description
+  cannot open a code block that hides the rest of the catalog.
 - Line handling is the same as for code comments (Section 7.6): trailing
   whitespace on each line and leading/trailing blank lines are removed. This
   also drops Markdown hard line breaks made with two trailing spaces.
@@ -748,11 +790,37 @@ TypeScript CLI generates TypeScript only.
 | `init` | Writes a sample `tracking_plan.yaml`. Refuses to overwrite an existing file (exit 2). |
 | `validate` | Validates the plan. `--json` for machine-readable output. |
 | `generate` | Validates, then writes this language's output file atomically (temp file + rename). |
-| `check` | Validates, then exits `1` if the output file is missing or differs from what `generate` would write. Writes nothing. |
+| `check` | Validates, then exits `1` if the output file is missing or its bytes differ from what `generate` would write (including a file that is not valid UTF-8). Writes nothing. |
 | `docs` | Validates, then writes `TRACKING_PLAN.md`. |
 
-Common flags: `--plan <path>` (default `tracking_plan.yaml`), `--out <path>`
-(overrides the target output), `--allow-outside`, `--help`, `--version`.
+Flags:
+
+| Flag | Commands |
+|---|---|
+| `--plan <path>` (default `tracking_plan.yaml`) | all |
+| `--allow-outside` | `validate`, `generate`, `check`, `docs` |
+| `--out <path>` (overrides the target output) | `generate`, `check`, `docs` |
+| `--json` | `validate` |
+| `--help`, `-h` | all, and on its own |
+| `--version` | on its own only (`trackplan --version`) |
+
+Usage errors (unknown command or flag, invalid `--out`, plan file not found,
+a plan larger than 1 MB) exit with 2 before the plan is validated. File names,
+arguments and paths in CLI messages are escaped like plan text in messages
+(Section 6.1).
+
+`check` refuses (exit 2) an output path that resolves outside the current
+directory unless `--allow-outside` is given. It compares the file length
+first, so it never reads a large or special file in full. `generate` writes
+through a temporary file with a random name created exclusively in the target
+directory, then renames it.
+
+`docs --out` follows the path rules except the file extension rule. `generate`,
+`check` and `docs` print warnings to stderr and continue; errors stop them with
+exit code 1.
+
+A plan nested so deeply that a parser runs out of stack is a tool failure
+(exit 2), not a diagnostic.
 
 `--out` follows the same path rules as `output`, but because it does not
 come from the plan, a bad `--out` is a usage error (exit 2) rather than a

@@ -66,8 +66,16 @@ export class Analytics {
    * Third line after a blank line.
    * Line after trailing spaces.
    */
-  multilineDescription(): void {
-    this._track('multiline_description', {});
+  multilineDescription(params: {
+    /**
+     * First line of a param description.
+     * Second line, after a line break.
+     */
+    detail: string;
+  }): void {
+    this._track('multiline_description', {
+      detail: params.detail,
+    });
   }
 
   /** Café, naïve, 日本語, emoji 😀 and a tab:	here. */

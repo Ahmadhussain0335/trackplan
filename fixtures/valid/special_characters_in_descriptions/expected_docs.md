@@ -53,7 +53,9 @@ First line.
 Third line after a blank line.
 Line after trailing spaces.
 
-No parameters.
+| Param | Type | Required | Constraints | Description |
+| --- | --- | --- | --- | --- |
+| `detail` | `string` | yes | - | First line of a param description.<br>Second line, after a line break. |
 
 ### `unicode_text`
 

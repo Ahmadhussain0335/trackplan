@@ -65,6 +65,21 @@ export class Analytics {
     });
   }
 
+  /** Would make the generated class thenable in JavaScript. */
+  then_(params: {
+    valueOf_?: number | undefined;
+    toString_?: string | undefined;
+  } = {}): void {
+    const payload: Record<string, AnalyticsValue> = {};
+    if (params.valueOf_ !== undefined) {
+      payload['value_of'] = params.valueOf_;
+    }
+    if (params.toString_ !== undefined) {
+      payload['to_string'] = params.toString_;
+    }
+    this._track('then', payload);
+  }
+
   /** Collides with Object.toString in Dart. */
   toString_(): void {
     this._track('to_string', {});

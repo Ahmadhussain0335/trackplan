@@ -18,7 +18,7 @@ final class LoadResult {
   /// The root mapping, when loading succeeded.
   final YamlMap? root;
 
-  /// The fatal diagnostic (TP001–TP007), when loading failed.
+  /// The fatal diagnostic (TP001–TP008), when loading failed.
   final Diagnostic? fatal;
 }
 
@@ -37,6 +37,9 @@ LoadResult loadPlan(List<int> bytes) {
 
   final rawCharacter = _checkRawCharacters(source);
   if (rawCharacter != null) return LoadResult._(null, rawCharacter);
+
+  final tab = _checkLeadingTabs(source);
+  if (tab != null) return LoadResult._(null, tab);
 
   final directive = _checkDirectives(source);
   if (directive != null) return LoadResult._(null, directive);
@@ -89,6 +92,26 @@ Diagnostic? _checkRawCharacters(String source) {
       pos.column,
       'The file contains the disallowed character ${unicodeName(unit)}.',
     );
+  }
+  return null;
+}
+
+Diagnostic? _checkLeadingTabs(String source) {
+  var line = 1;
+  var lineStart = true;
+  for (var i = 0; i < source.length; i++) {
+    final unit = source.codeUnitAt(i);
+    if (lineStart && unit == 0x09) {
+      return Diagnostic(
+        'TP008',
+        Severity.error,
+        line,
+        1,
+        'Tab at the start of a line: indent with spaces.',
+      );
+    }
+    lineStart = unit == 0x0A;
+    if (lineStart) line++;
   }
   return null;
 }

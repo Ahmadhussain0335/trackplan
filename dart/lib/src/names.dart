@@ -31,11 +31,11 @@ const reservedWords = {
   'yield',
 };
 
-/// Additional words renamed in method names (SPEC.md section 4.4).
+/// Additional words renamed in method and param names (SPEC.md section 4.4).
 const reservedMethodNames = {
   'constructor', 'hashCode', 'hasOwnProperty', 'isPrototypeOf', //
-  'noSuchMethod', 'propertyIsEnumerable', 'runtimeType', 'toLocaleString',
-  'toString', 'valueOf',
+  'noSuchMethod', 'propertyIsEnumerable', 'runtimeType', 'then', 'toJSON',
+  'toLocaleString', 'toString', 'valueOf',
 };
 
 /// Additional words renamed in Dart enum constants (SPEC.md section 4.4).
@@ -78,7 +78,7 @@ String identifierFor(String name, IdentifierKind kind) {
   final id = camelCase(name);
   final reserved =
       reservedWords.contains(id) ||
-      (kind == IdentifierKind.method && reservedMethodNames.contains(id)) ||
+      (kind != IdentifierKind.enumValue && reservedMethodNames.contains(id)) ||
       (kind == IdentifierKind.enumValue && reservedEnumValueNames.contains(id));
   return reserved ? '${id}_' : id;
 }

@@ -73,6 +73,11 @@ bool _isGitSegment(String segment) {
   return name == '.git' || RegExp(r'^git~[0-9]+$').hasMatch(name);
 }
 
+// Zero-width characters that some file systems ignore, so `.g\u{200C}it`
+// could act as `.git`.
+bool _isInvisible(int unit) =>
+    (unit >= 0x200B && unit <= 0x200D) || unit == 0x2060;
+
 typedef _Entry = ({String key, YamlNode keyNode, YamlNode value});
 
 const _rootKeys = ['version', 'meta', 'targets', 'settings', 'enums', 'events'];
@@ -526,7 +531,10 @@ final class _Validator {
     final path = _string(entry);
     if (path == null) return null;
     for (final unit in path.codeUnits) {
-      if (unit == 0x09 || unit == 0x0A || isDisallowedCharacter(unit)) {
+      if (unit == 0x09 ||
+          unit == 0x0A ||
+          isDisallowedCharacter(unit) ||
+          _isInvisible(unit)) {
         _error(
           'TP024',
           _valuePos(entry),

@@ -21,6 +21,15 @@ events:
         description: Contextual keywords such as type are not renamed.
   to_string:
     description: Collides with Object.toString in Dart.
+  then:
+    description: Would make the generated class thenable in JavaScript.
+    params:
+      value_of:
+        type: int
+        required: false
+      to_string:
+        type: string
+        required: false
   constructor:
     description: Collides with the class constructor in TypeScript.
   delete:

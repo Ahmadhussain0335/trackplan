@@ -103,7 +103,7 @@ String escapeForMessage(String text) {
 String diagnosticsToJson(String file, List<Diagnostic> diagnostics) {
   final errors = diagnostics.where((d) => d.isError).length;
   final value = <String, Object>{
-    'file': file,
+    'file': escapeForMessage(file),
     'error_count': errors,
     'warning_count': diagnostics.length - errors,
     'diagnostics': [

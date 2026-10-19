@@ -30,7 +30,7 @@ Phase 2 review, never applied silently.
 | `enums` | Several enums (sorted output), required and optional enum params, enum without description |
 | `optional_params` | Optional params of every type; event whose params are all optional |
 | `deprecated_event` | Deprecated events with and without params, `owner` |
-| `reserved_word_escaping` | Renaming of reserved words for events, params and enum values; contextual keywords left alone |
+| `reserved_word_escaping` | Renaming of reserved words for events, params and enum values (including `then` and `Object` members); contextual keywords left alone |
 | `special_characters_in_descriptions` | `*/`, quotes, backslashes, `$`, HTML, pipes, Unicode, tabs, multi-line text, text that looks like YAML anchors, aliases or tags |
 | `missing_descriptions` | Warnings in a valid plan (`expected_errors.json`): events without descriptions, whitespace-only description, owner-only doc comment, unused enum |
 | `runtime_checks` | TypeScript `runtime_checks: true`, negative and decimal bounds |
@@ -47,6 +47,7 @@ Phase 2 review, never applied silently.
 | `lone_cr` | TP005 |
 | `invalid_utf8` | TP006 |
 | `raw_control_character` | TP007 (raw bidi character in a comment) |
+| `tab_indentation` | TP008 |
 | `missing_required_keys` | TP010 |
 | `unknown_key` | TP011, TP010, TP100 |
 | `wrong_value_types` | TP012, TP037 |

@@ -373,6 +373,8 @@ void writeGeneratedFile({
   }
 
   final directory = Directory(p.dirname(target))..createSync(recursive: true);
+  // Check again: a folder could have been swapped for a symlink meanwhile.
+  if (!allowOutside) _ensureInside(cwd, target, path);
   // A random name created exclusively: a planted symlink or file with a
   // predictable name could otherwise redirect the write.
   final random = Random.secure();

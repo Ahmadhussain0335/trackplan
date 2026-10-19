@@ -61,6 +61,11 @@ class Analytics {
     _track('delete', {'key': key.value, 'int': int_});
   }
 
+  /// Would make the generated class thenable in JavaScript.
+  void then_({int? valueOf_, String? toString_}) {
+    _track('then', {'value_of': ?valueOf_, 'to_string': ?toString_});
+  }
+
   /// Collides with Object.toString in Dart.
   void toString_() {
     _track('to_string', const {});

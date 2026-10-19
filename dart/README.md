@@ -3,9 +3,11 @@
 Type-safe analytics for Dart and Flutter, generated from one YAML tracking
 plan. A misspelled event or a missing parameter becomes a compile error.
 
-The plan format is described in
-[SPEC.md](https://github.com/Ahmadhussain0335/trackplan/blob/main/spec/SPEC.md).
-A TypeScript generator for the same plan format is planned.
+The same plan also generates TypeScript code with the
+[trackplan npm package](https://www.npmjs.com/package/trackplan), and both
+tools report the same diagnostics. See the
+[main README](https://github.com/Ahmadhussain0335/trackplan#readme) and the
+[plan format](https://github.com/Ahmadhussain0335/trackplan/blob/main/spec/SPEC.md).
 
 ## The problem
 

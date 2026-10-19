@@ -93,5 +93,9 @@ void main() {
       ],
     });
     expect(diagnosticsToJson('p', []), contains('"diagnostics": []'));
+    expect(
+      jsonDecode(diagnosticsToJson('\u{009B}a.yaml', [])),
+      containsPair('file', r'\u{009B}a.yaml'),
+    );
   });
 }

@@ -2,7 +2,7 @@
 
 # Tracking plan
 
-Events: 4. Enums: 1.
+Events: 5. Enums: 1.
 
 ## Events
 
@@ -11,6 +11,7 @@ Events: 4. Enums: 1.
 | `class` | Event named after a reserved word. | - | - | Active |
 | `constructor` | Collides with the class constructor in TypeScript. | - | - | Active |
 | `delete` | JavaScript reserved word. | - | - | Active |
+| `then` | Would make the generated class thenable in JavaScript. | - | - | Active |
 | `to_string` | Collides with Object.toString in Dart. | - | - | Active |
 
 ### `class`
@@ -38,6 +39,15 @@ JavaScript reserved word.
 | --- | --- | --- | --- | --- |
 | `key` | `sort_key` (enum) | yes | one of `index`, `value`, `values`, `default`, `name` | - |
 | `int` | `double` | yes | - | - |
+
+### `then`
+
+Would make the generated class thenable in JavaScript.
+
+| Param | Type | Required | Constraints | Description |
+| --- | --- | --- | --- | --- |
+| `value_of` | `int` | no | - | - |
+| `to_string` | `string` | no | - | - |
 
 ### `to_string`
 

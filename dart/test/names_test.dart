@@ -55,9 +55,14 @@ void main() {
       }
     });
 
-    test('renames Object members only for methods', () {
+    test('renames Object members and then for methods and params', () {
       expect(identifierFor('to_string', IdentifierKind.method), 'toString_');
-      expect(identifierFor('to_string', IdentifierKind.param), 'toString');
+      expect(identifierFor('to_string', IdentifierKind.param), 'toString_');
+      expect(identifierFor('value_of', IdentifierKind.param), 'valueOf_');
+      expect(identifierFor('then', IdentifierKind.method), 'then_');
+      expect(identifierFor('to_j_s_o_n', IdentifierKind.method), 'toJSON_');
+      expect(identifierFor('to_string', IdentifierKind.enumValue), 'toString_');
+      expect(identifierFor('then', IdentifierKind.enumValue), 'then');
     });
 
     test('renames enum members only for enum values', () {

@@ -52,6 +52,9 @@ them are easy to change before v0.1.0 and hard to change after.
   CRLF line ending is allowed. This blocks "Trojan
   Source" bidi tricks in comments and avoids a parser difference: Dart's YAML
   parser rejects raw control characters, npm's accepts them.
+- A tab at the start of a line is rejected (TP008). YAML does not allow tabs
+  for indentation, and the two YAML parsers disagree about where else a tab
+  at the start of a line is acceptable.
 - YAML directives (any line starting with `%`, such as `%YAML 1.1`) are not
   supported (TP003). npm's parser switches to YAML 1.1 rules on `%YAML 1.1`
   (`yes` becomes `true`, `010` becomes 8); Dart's does not.
@@ -141,9 +144,10 @@ Output paths are relative to the directory the CLI runs in. Both `/` and `\`
 count as separators. A path starting with `/`, `\` or a drive letter (`C:`)
 counts as absolute. The validator checks the text of the path:
 
-- it must not contain a tab, line feed or any character from the disallowed
-  set of Section 2.9 (TP024), so a plan cannot inject control sequences into
-  CI logs through file names
+- it must not contain a tab, line feed, any character from the disallowed
+  set of Section 2.9, or an invisible character U+200B–U+200D or U+2060
+  (TP024), so a plan cannot inject control sequences into CI logs through
+  file names or hide a `.git` segment
 - it must not be empty, absolute, contain `:` (other than a leading drive
   letter), or contain a `..` or `.git` segment (TP050,
   unless the CLI is run with `--allow-outside`, which lifts only the absolute
@@ -345,11 +349,13 @@ position used by generated code (for example `type`, `get`, `set`, `on`,
 `required`, `async`) are not renamed, so common param names like `type` stay
 as they are. This was checked against the Dart 3.13 analyzer.
 
-**Additionally for events (methods on the generated class):**
+**Additionally for events and params (methods on the generated class, and
+properties that would otherwise read inherited `Object` members such as
+`valueOf` when an optional param is omitted, or make the class "thenable"):**
 
 ```
 constructor hashCode hasOwnProperty isPrototypeOf noSuchMethod
-propertyIsEnumerable runtimeType toLocaleString toString valueOf
+propertyIsEnumerable runtimeType then toJSON toLocaleString toString valueOf
 ```
 
 **Additionally for enum values (Dart enum constants):**
@@ -414,22 +420,24 @@ Where the position points:
 
 To keep the two tools in step, checks are skipped in these cases:
 
-1. A **fatal** diagnostic (TP001–TP007) stops validation; it is the only
+1. A **fatal** diagnostic (TP001–TP008) stops validation; it is the only
    diagnostic reported. Fatal checks run in this order, and the first one
    that fails wins:
    1. TP006 (not UTF-8)
    2. TP005 (lone CR)
    3. TP007 (disallowed raw character; the first one in the file)
-   4. TP003 for directives (the first `%` line)
-   5. TP001 or TP002, whichever comes first in the document (Dart's parser
+   4. TP008 (the first line that starts with a tab)
+   5. TP003 for directives (the first `%` line)
+   6. TP001 or TP002, whichever comes first in the document (Dart's parser
       stops at the first of the two it meets). When Dart's parser rejects a
       core tag (for example `!!int abc`), the tag is blanked out and the file
       is parsed again; after 20 such tags the Dart tool reports TP003 at the
       first of them without parsing further. Both tools exit with 1; the
       position may differ for such a file.
-   6. TP003 for anchors, aliases, tags, merge keys and complex keys (the
+
+   7. TP003 for anchors, aliases, tags, merge keys and complex keys (the
       first one in document order)
-   7. TP004 (root is not a mapping)
+   8. TP004 (root is not a mapping)
 2. A name that fails TP020 is not checked for TP021, TP022, or reserved
    words, and is skipped by provider checks.
 3. A param whose `type` is missing, unknown, or not a string is not checked
@@ -445,6 +453,15 @@ To keep the two tools in step, checks are skipped in these cases:
 9. Provider checks: TP110–TP113 are skipped for an event with an invalid
    name; TP114–TP117 are skipped for a param with an invalid name. Params of
    an event with an invalid name are still checked.
+
+**Known limitation.** The two YAML libraries do not accept exactly the same
+malformed input. For a file that is not well-formed YAML, one tool may report
+TP001 while the other reports a different diagnostic, or, rarely, accepts the
+file. TP005, TP007 and TP008 remove the most common differences (line
+endings, control characters, tabs). For well-formed YAML both tools must
+report the same diagnostics; this is checked by the shared fixtures and by
+`tool/parity.mjs`, which runs both tools on the fixtures, edge cases and
+generated mutations of them.
 
 ### 5.3 Ordering and exit codes
 
@@ -486,7 +503,8 @@ Machine-readable (`--json`):
 }
 ```
 
-`file` is the `--plan` path exactly as given. The output is exactly what
+`file` is the `--plan` path as given, escaped like plan text in messages
+(Section 6.1). The output is exactly what
 JavaScript's `JSON.stringify(value, null, 2)` produces (Dart:
 `JsonEncoder.withIndent('  ')`), with keys in the order shown, followed by a
 final line feed. Non-ASCII characters are not escaped.
@@ -507,6 +525,7 @@ for future codes.
 | TP005 | yes | Lone CR line ending | The CR | `Unsupported line ending: use LF or CRLF.` |
 | TP006 | yes | File is not valid UTF-8 | `1:1` | `The file is not valid UTF-8.` |
 | TP007 | yes | Raw disallowed character (Section 2.9) anywhere in the file | The character | `The file contains the disallowed character U+<XXXX>.` |
+| TP008 | yes | A line starts with a tab | `<line>:1` | `Tab at the start of a line: indent with spaces.` |
 | TP010 | | Required key missing: `version`, `events` (root), `type` (param), `values` (enum) | Parent key; `1:1` for root | `Missing required key "<key>" in <context>.` |
 | TP011 | | Unknown key | The key | `Unknown key "<key>" in <context>.` plus ` Did you mean "<s>"?` when a key at the same level is within edit distance 2 |
 | TP012 | | Value has the wrong YAML type, a key is not a string, or `deprecated` is empty | Value (Section 5.1) or the key | `Expected <expected> for "<key>", got <actual>.` / `Keys must be strings, got <actual>. Quote the key.` |
@@ -813,7 +832,8 @@ arguments and paths in CLI messages are escaped like plan text in messages
 directory unless `--allow-outside` is given. It compares the file length
 first, so it never reads a large or special file in full. `generate` writes
 through a temporary file with a random name created exclusively in the target
-directory, then renames it.
+directory, then renames it. The inside-the-project check runs again after the
+target directory is created, just before the rename.
 
 `docs --out` follows the path rules except the file extension rule. `generate`,
 `check` and `docs` print warnings to stderr and continue; errors stop them with

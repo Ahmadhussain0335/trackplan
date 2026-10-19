@@ -445,6 +445,15 @@ events:
       );
     });
 
+    test('invisible characters in output paths are TP024', () {
+      expect(
+        _diags(
+          'version: 1\ntargets:\n  dart: {output: ".g\\u200Cit/x.dart"}\n$_event',
+        ),
+        ['TP024 3:18 "output" contains the disallowed character U+200C.'],
+      );
+    });
+
     test('Windows aliases of .git and colons are rejected', () {
       String? problem(String path, [bool allowOutside = false]) =>
           outputPathProblem(path, allowOutside: allowOutside);

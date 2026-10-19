@@ -50,6 +50,12 @@ void main() {
       expect(_fatal('version: 1\nx: \uFEFF\n')!.code, 'TP007');
     });
 
+    test('a tab at the start of a line is TP008', () {
+      final d = _fatal('version: 1\nevents:\n\ta: {}\n')!;
+      expect((d.code, d.line, d.column), ('TP008', 3, 1));
+      expect(_fatal('version: 1\nx: [a,\tb]\n'), isNull);
+    });
+
     test('a directive line is TP003 at column 1', () {
       final d = _fatal('version: 1\n%TAG ! tag:x\n---\n')!;
       expect((d.code, d.line, d.column), ('TP003', 2, 1));
@@ -90,6 +96,13 @@ void main() {
 
     test('a quoted duplicate key is reported by its value', () {
       expect(_fatal('a: 1\n"a": 2\n')!.message, 'Duplicate key "a".');
+    });
+
+    test('big integers, NaN and alias keys compare as Dart values', () {
+      expect(_fatal('9007199254740993: a\n9007199254740992: b\n'), isNull);
+      expect(_fatal('.nan: a\n.NaN: b\n')!.code, 'TP002');
+      expect(_fatal('1: a\n1.0: b\n')!.code, 'TP002');
+      expect(_fatal('&k x: 1\n*k : 2\n')!.code, 'TP002');
     });
 
     test('keys are compared by value', () {

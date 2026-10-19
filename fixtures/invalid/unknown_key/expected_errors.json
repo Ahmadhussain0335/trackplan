@@ -1,0 +1,42 @@
+{
+  "file": "plan.yaml",
+  "error_count": 4,
+  "warning_count": 1,
+  "diagnostics": [
+    {
+      "code": "TP100",
+      "severity": "warning",
+      "line": 4,
+      "column": 3,
+      "message": "Event \"checkout_completed\" has no description."
+    },
+    {
+      "code": "TP011",
+      "severity": "error",
+      "line": 5,
+      "column": 5,
+      "message": "Unknown key \"descripton\" in event \"checkout_completed\". Did you mean \"description\"?"
+    },
+    {
+      "code": "TP011",
+      "severity": "error",
+      "line": 9,
+      "column": 9,
+      "message": "Unknown key \"requried\" in param \"coupon_code\" of event \"checkout_completed\". Did you mean \"required\"?"
+    },
+    {
+      "code": "TP011",
+      "severity": "error",
+      "line": 12,
+      "column": 9,
+      "message": "Unknown key \"minimum\" in param \"total\" of event \"checkout_completed\"."
+    },
+    {
+      "code": "TP010",
+      "severity": "error",
+      "line": 13,
+      "column": 7,
+      "message": "Missing required key \"type\" in param \"quantity\" of event \"checkout_completed\"."
+    }
+  ]
+}

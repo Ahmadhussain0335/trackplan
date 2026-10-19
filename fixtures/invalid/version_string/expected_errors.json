@@ -1,0 +1,14 @@
+{
+  "file": "plan.yaml",
+  "error_count": 1,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP012",
+      "severity": "error",
+      "line": 1,
+      "column": 10,
+      "message": "Expected an integer for \"version\", got a string."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+%YAML 1.1
+---
+version: 1
+
+events:
+  app_opened:
+    description: User opened the app.

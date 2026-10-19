@@ -1,0 +1,15 @@
+version: 1
+
+events:
+  CheckoutCompleted:
+    description: PascalCase is not allowed.
+  2fa_enabled:
+    description: Starts with a digit.
+  checkout__done:
+    description: Double underscore.
+  orderId:
+    description: camelCase is not allowed.
+  user_completed_the_onboarding_flow_after_a_very_long_time_on_page_x:
+    description: Longer than 64 characters.
+  page-viewed:
+    description: Hyphen is not allowed.

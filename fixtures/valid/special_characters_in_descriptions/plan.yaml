@@ -1,0 +1,32 @@
+version: 1
+
+meta:
+  name: Special <characters> & "quotes" | pipes
+  description: |
+    Plan used to test escaping.
+    It has *Markdown*, <b>HTML</b> & ampersands.
+
+events:
+  comment_injection:
+    description: "Ends a block comment */ then tries code /* and // too"
+    owner: "team | with pipe"
+    tags: ["a|b", "<script>"]
+    params:
+      note:
+        type: string
+        description: 'Single quote '' double " backslash \ dollar $name ${expr}'
+  multiline_description:
+    description: |
+      First line.
+
+      Third line after a blank line.  
+      Line after trailing spaces.
+  unicode_text:
+    description: "Café, naïve, 日本語, emoji 😀 and a tab:\there."
+  deprecated_with_quotes:
+    description: Deprecated with a reason that needs escaping.
+    deprecated: "Don't use: it's $old \\ \"broken\"\nUse 'new' instead."
+  anchor_lookalikes:
+    description: Tom & Jerry, a *b and 50% off are plain text.
+    owner: a *b
+    tags: ["&x", "!not_a_tag", "%percent"]

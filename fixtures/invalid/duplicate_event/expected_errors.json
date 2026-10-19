@@ -1,0 +1,14 @@
+{
+  "file": "plan.yaml",
+  "error_count": 1,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP002",
+      "severity": "error",
+      "line": 8,
+      "column": 3,
+      "message": "Duplicate key \"checkout_completed\"."
+    }
+  ]
+}

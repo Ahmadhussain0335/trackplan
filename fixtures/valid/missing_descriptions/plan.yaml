@@ -1,0 +1,11 @@
+version: 1
+
+enums:
+  unused_size:
+    values: [small, large]
+
+events:
+  app_opened:
+  report_exported:
+    owner: data-team
+    description: "  "

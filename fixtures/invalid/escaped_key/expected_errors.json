@@ -1,0 +1,14 @@
+{
+  "file": "plan.yaml",
+  "error_count": 1,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP020",
+      "severity": "error",
+      "line": 4,
+      "column": 3,
+      "message": "Invalid event name \"\\u{001B}[31mred\\u{001B}[0m\": use lowercase snake_case starting with a letter."
+    }
+  ]
+}

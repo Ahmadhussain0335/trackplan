@@ -1,0 +1,14 @@
+{
+  "file": "plan.yaml",
+  "error_count": 1,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP003",
+      "severity": "error",
+      "line": 5,
+      "column": 5,
+      "message": "YAML anchors are not supported in tracking plans."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+version: 1
+
+events:
+  step_2_done:
+    description: Second onboarding step finished.
+    params:
+      page_1_id:
+        type: string
+      page1_id:
+        type: string
+  step2_done:
+    description: Generates the same method name as step_2_done.

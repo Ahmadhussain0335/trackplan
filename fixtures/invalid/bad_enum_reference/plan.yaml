@@ -1,0 +1,18 @@
+version: 1
+
+enums:
+  payment_method:
+    values: [card, paypal]
+
+events:
+  checkout_completed:
+    description: User finished payment.
+    params:
+      method:
+        type: enum
+        enum: payment_methods
+      currency:
+        type: enum
+      channel:
+        type: enum
+        enum: sales_channel

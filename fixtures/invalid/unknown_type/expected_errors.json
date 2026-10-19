@@ -1,0 +1,35 @@
+{
+  "file": "plan.yaml",
+  "error_count": 4,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP030",
+      "severity": "error",
+      "line": 8,
+      "column": 15,
+      "message": "Unknown type \"float\". Did you mean \"double\"?"
+    },
+    {
+      "code": "TP030",
+      "severity": "error",
+      "line": 10,
+      "column": 15,
+      "message": "Unknown type \"string[]\". Did you mean \"list<string>\"?"
+    },
+    {
+      "code": "TP030",
+      "severity": "error",
+      "line": 12,
+      "column": 15,
+      "message": "Unknown type \"strng\". Did you mean \"string\"?"
+    },
+    {
+      "code": "TP030",
+      "severity": "error",
+      "line": 14,
+      "column": 15,
+      "message": "Unknown type \"whatever\". Supported types: string, int, double, bool, enum, list<string>."
+    }
+  ]
+}

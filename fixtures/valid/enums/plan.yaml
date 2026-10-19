@@ -1,0 +1,33 @@
+version: 1
+
+enums:
+  subscription_plan:
+    values: [free, pro_monthly, pro_yearly]
+  payment_method:
+    description: How the user paid.
+    values: [card, paypal, apple_pay, bank_transfer]
+  share_target:
+    description: Where the user shared content.
+    values: [copy_link, email, sms]
+
+events:
+  subscription_started:
+    description: User started a paid subscription.
+    params:
+      plan:
+        type: enum
+        enum: subscription_plan
+      payment_method:
+        type: enum
+        enum: payment_method
+  content_shared:
+    description: User shared a piece of content.
+    params:
+      target:
+        type: enum
+        enum: share_target
+      fallback_target:
+        type: enum
+        enum: share_target
+        required: false
+        description: Target used when the first choice failed.

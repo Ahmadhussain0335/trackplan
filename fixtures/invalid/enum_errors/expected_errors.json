@@ -1,0 +1,49 @@
+{
+  "file": "plan.yaml",
+  "error_count": 6,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP034",
+      "severity": "error",
+      "line": 5,
+      "column": 5,
+      "message": "Enum \"empty_enum\" has no values."
+    },
+    {
+      "code": "TP035",
+      "severity": "error",
+      "line": 7,
+      "column": 25,
+      "message": "Duplicate value \"free\" in enum \"plan_tier\"."
+    },
+    {
+      "code": "TP020",
+      "severity": "error",
+      "line": 7,
+      "column": 31,
+      "message": "Invalid enum value name \"Pro\": use lowercase snake_case starting with a letter."
+    },
+    {
+      "code": "TP021",
+      "severity": "error",
+      "line": 7,
+      "column": 44,
+      "message": "Enum value \"tier2\" generates the same identifier \"tier2\" as \"tier_2\" (line 7)."
+    },
+    {
+      "code": "TP022",
+      "severity": "error",
+      "line": 8,
+      "column": 3,
+      "message": "Enum \"analytics_adapter\" generates the type name \"AnalyticsAdapter\", which is reserved."
+    },
+    {
+      "code": "TP010",
+      "severity": "error",
+      "line": 10,
+      "column": 3,
+      "message": "Missing required key \"values\" in enum \"no_values\"."
+    }
+  ]
+}

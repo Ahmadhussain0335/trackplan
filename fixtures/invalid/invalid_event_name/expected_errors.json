@@ -1,0 +1,49 @@
+{
+  "file": "plan.yaml",
+  "error_count": 6,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP020",
+      "severity": "error",
+      "line": 4,
+      "column": 3,
+      "message": "Invalid event name \"CheckoutCompleted\": use lowercase snake_case starting with a letter."
+    },
+    {
+      "code": "TP020",
+      "severity": "error",
+      "line": 6,
+      "column": 3,
+      "message": "Invalid event name \"2fa_enabled\": use lowercase snake_case starting with a letter."
+    },
+    {
+      "code": "TP020",
+      "severity": "error",
+      "line": 8,
+      "column": 3,
+      "message": "Invalid event name \"checkout__done\": use lowercase snake_case starting with a letter."
+    },
+    {
+      "code": "TP020",
+      "severity": "error",
+      "line": 10,
+      "column": 3,
+      "message": "Invalid event name \"orderId\": use lowercase snake_case starting with a letter."
+    },
+    {
+      "code": "TP020",
+      "severity": "error",
+      "line": 12,
+      "column": 3,
+      "message": "Invalid event name \"user_completed_the_onboarding_flow_after_a_very_long_time_on_page_x\": longer than 64 characters."
+    },
+    {
+      "code": "TP020",
+      "severity": "error",
+      "line": 14,
+      "column": 3,
+      "message": "Invalid event name \"page-viewed\": use lowercase snake_case starting with a letter."
+    }
+  ]
+}

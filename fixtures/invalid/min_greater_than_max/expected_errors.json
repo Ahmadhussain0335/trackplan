@@ -1,0 +1,21 @@
+{
+  "file": "plan.yaml",
+  "error_count": 2,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP036",
+      "severity": "error",
+      "line": 9,
+      "column": 14,
+      "message": "\"min\" (5) is greater than \"max\" (1)."
+    },
+    {
+      "code": "TP036",
+      "severity": "error",
+      "line": 13,
+      "column": 14,
+      "message": "\"min\" (10.5) is greater than \"max\" (-2)."
+    }
+  ]
+}

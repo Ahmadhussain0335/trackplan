@@ -1,0 +1,42 @@
+{
+  "file": "plan.yaml",
+  "error_count": 5,
+  "warning_count": 0,
+  "diagnostics": [
+    {
+      "code": "TP033",
+      "severity": "error",
+      "line": 13,
+      "column": 9,
+      "message": "Option \"min\" is not allowed for type string."
+    },
+    {
+      "code": "TP033",
+      "severity": "error",
+      "line": 16,
+      "column": 9,
+      "message": "Option \"max_length\" is not allowed for type int."
+    },
+    {
+      "code": "TP033",
+      "severity": "error",
+      "line": 20,
+      "column": 9,
+      "message": "Option \"max\" is not allowed for type enum."
+    },
+    {
+      "code": "TP033",
+      "severity": "error",
+      "line": 23,
+      "column": 9,
+      "message": "Option \"enum\" is not allowed for type bool."
+    },
+    {
+      "code": "TP033",
+      "severity": "error",
+      "line": 26,
+      "column": 9,
+      "message": "Option \"max_length\" is not allowed for type list<string>."
+    }
+  ]
+}

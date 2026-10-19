@@ -1,0 +1,14 @@
+{
+  "file": "plan.yaml",
+  "error_count": 0,
+  "warning_count": 1,
+  "diagnostics": [
+    {
+      "code": "TP113",
+      "severity": "warning",
+      "line": 9,
+      "column": 5,
+      "message": "Firebase: event \"form_submitted\" has 26 params; the limit is 25."
+    }
+  ]
+}

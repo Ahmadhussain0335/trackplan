@@ -1,0 +1,35 @@
+version: 1
+
+settings:
+  warn_provider_limits: [firebase]
+
+events:
+  form_submitted:
+    description: Has 26 params.
+    params:
+      field_1: {type: string}
+      field_2: {type: string}
+      field_3: {type: string}
+      field_4: {type: string}
+      field_5: {type: string}
+      field_6: {type: string}
+      field_7: {type: string}
+      field_8: {type: string}
+      field_9: {type: string}
+      field_10: {type: string}
+      field_11: {type: string}
+      field_12: {type: string}
+      field_13: {type: string}
+      field_14: {type: string}
+      field_15: {type: string}
+      field_16: {type: string}
+      field_17: {type: string}
+      field_18: {type: string}
+      field_19: {type: string}
+      field_20: {type: string}
+      field_21: {type: string}
+      field_22: {type: string}
+      field_23: {type: string}
+      field_24: {type: string}
+      field_25: {type: string}
+      field_26: {type: string}

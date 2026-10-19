@@ -1,0 +1,22 @@
+version: 1
+
+settings:
+  warn_provider_limits: [firebase]
+
+events:
+  first_open:
+    description: Reserved by Firebase.
+  firebase_custom_event:
+    description: Uses a reserved prefix.
+  user_finished_the_long_onboarding_flow_today:
+    description: Longer than 40 characters.
+  profile_saved:
+    description: Param limits.
+    params:
+      ga_session_note:
+        type: string
+        max_length: 200
+      is_public:
+        type: bool
+      the_users_preferred_theme_name_in_settings_x:
+        type: string

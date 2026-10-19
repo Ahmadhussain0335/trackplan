@@ -1,0 +1,7 @@
+version: 1
+
+events:
+  app_opened:
+    description: "Unclosed quote
+  app_closed:
+    description: User closed the app.

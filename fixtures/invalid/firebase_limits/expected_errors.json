@@ -1,0 +1,56 @@
+{
+  "file": "plan.yaml",
+  "error_count": 0,
+  "warning_count": 7,
+  "diagnostics": [
+    {
+      "code": "TP112",
+      "severity": "warning",
+      "line": 7,
+      "column": 3,
+      "message": "Firebase: event name \"first_open\" is reserved and will be dropped."
+    },
+    {
+      "code": "TP111",
+      "severity": "warning",
+      "line": 9,
+      "column": 3,
+      "message": "Firebase: event name \"firebase_custom_event\" uses the reserved prefix \"firebase_\"."
+    },
+    {
+      "code": "TP110",
+      "severity": "warning",
+      "line": 11,
+      "column": 3,
+      "message": "Firebase: event name \"user_finished_the_long_onboarding_flow_today\" is longer than 40 characters."
+    },
+    {
+      "code": "TP115",
+      "severity": "warning",
+      "line": 16,
+      "column": 7,
+      "message": "Firebase: param name \"ga_session_note\" uses the reserved prefix \"ga_\"."
+    },
+    {
+      "code": "TP116",
+      "severity": "warning",
+      "line": 18,
+      "column": 21,
+      "message": "Firebase: string values are limited to 100 characters, but \"max_length\" is 200."
+    },
+    {
+      "code": "TP117",
+      "severity": "warning",
+      "line": 20,
+      "column": 15,
+      "message": "Firebase: type bool is not supported for event params; the adapter must convert it."
+    },
+    {
+      "code": "TP114",
+      "severity": "warning",
+      "line": 21,
+      "column": 7,
+      "message": "Firebase: param name \"the_users_preferred_theme_name_in_settings_x\" is longer than 40 characters."
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+version: 1events:
+  app_opened:
+    description: Lone CR on line 1.

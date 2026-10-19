@@ -1,0 +1,28 @@
+version: 1
+
+enums:
+  empty_enum:
+    values: []
+  plan_tier:
+    values: [free, pro, free, Pro, tier_2, tier2]
+  analytics_adapter:
+    values: [only]
+  no_values:
+    description: Missing values.
+
+events:
+  plan_changed:
+    description: Uses the enums.
+    params:
+      tier:
+        type: enum
+        enum: plan_tier
+      adapter:
+        type: enum
+        enum: analytics_adapter
+      empty:
+        type: enum
+        enum: empty_enum
+      missing:
+        type: enum
+        enum: no_values

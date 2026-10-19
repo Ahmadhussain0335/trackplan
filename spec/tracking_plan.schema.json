@@ -1,0 +1,390 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "trackplan tracking plan, version 1",
+  "description": "Editor support only. The trackplan validator is the authority: it also checks name collisions, reserved words, enum references and min <= max, which JSON Schema cannot express. See spec/SPEC.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "events"
+  ],
+  "properties": {
+    "version": {
+      "description": "Tracking plan format version. Only 1 is supported.",
+      "const": 1
+    },
+    "meta": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "Title of the generated docs. Default: Tracking plan.",
+          "type": "string"
+        },
+        "description": {
+          "description": "Introduction shown at the top of the generated docs.",
+          "type": "string"
+        }
+      }
+    },
+    "targets": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "dart": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "output": {
+              "description": "Relative path of the generated Dart file. Default: lib/analytics/analytics.g.dart",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/outputPath"
+                },
+                {
+                  "pattern": "\\.dart$"
+                }
+              ]
+            },
+            "class_name": {
+              "description": "Name of the generated class. Default: Analytics",
+              "$ref": "#/definitions/className"
+            }
+          }
+        },
+        "typescript": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "output": {
+              "description": "Relative path of the generated TypeScript file. Default: src/analytics/analytics.ts",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/outputPath"
+                },
+                {
+                  "pattern": "\\.(ts|mts|cts)$"
+                }
+              ]
+            },
+            "class_name": {
+              "description": "Name of the generated class. Default: Analytics",
+              "$ref": "#/definitions/className"
+            },
+            "runtime_checks": {
+              "description": "Generate runtime checks for min, max, max_length and int params that throw RangeError. Default: false",
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "warn_provider_limits": {
+          "description": "Providers whose limits should be checked (warnings only).",
+          "type": "array",
+          "items": {
+            "enum": [
+              "firebase"
+            ]
+          }
+        }
+      }
+    },
+    "enums": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "propertyNames": {
+        "$ref": "#/definitions/name"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/enum"
+      }
+    },
+    "events": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "$ref": "#/definitions/name"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/event"
+      }
+    }
+  },
+  "definitions": {
+    "name": {
+      "description": "Lowercase snake_case, starting with a letter, at most 64 characters.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z0-9]+)*$",
+      "maxLength": 64
+    },
+    "className": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Za-z0-9]*$",
+      "not": {
+        "enum": [
+          "AnalyticsAdapter",
+          "AnalyticsParams",
+          "AnalyticsValue",
+          "DebugAnalyticsAdapter",
+          "RecordingAnalyticsAdapter",
+          "Array",
+          "Boolean",
+          "Date",
+          "Deprecated",
+          "Enum",
+          "Error",
+          "Function",
+          "Iterable",
+          "JSON",
+          "List",
+          "Map",
+          "Never",
+          "Null",
+          "Number",
+          "Object",
+          "Promise",
+          "RangeError",
+          "Readonly",
+          "Record",
+          "Set",
+          "String",
+          "Symbol",
+          "Type"
+        ]
+      }
+    },
+    "outputPath": {
+      "description": "Relative path inside the project. No absolute paths, no .. or .git segments.",
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "pattern": "(^[/\\\\])|(^[A-Za-z]:)|(^|[/\\\\])(\\.\\.|\\.git)([/\\\\]|$)"
+      }
+    },
+    "decimal": {
+      "description": "Plain decimal number (no exponent, hex or octal).",
+      "type": "number"
+    },
+    "enum": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "values"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "values": {
+          "description": "Values sent on the wire, in display order.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/name"
+          }
+        }
+      }
+    },
+    "event": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "description": "What happened. Missing descriptions produce a warning.",
+          "type": "string"
+        },
+        "owner": {
+          "description": "Team or person responsible for this event.",
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "deprecated": {
+          "description": "Reason the event is deprecated, for example what to use instead.",
+          "type": "string",
+          "minLength": 1
+        },
+        "params": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "propertyNames": {
+            "$ref": "#/definitions/name"
+          },
+          "additionalProperties": {
+            "$ref": "#/definitions/param"
+          }
+        }
+      }
+    },
+    "param": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "string",
+            "int",
+            "double",
+            "bool",
+            "enum",
+            "list<string>"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "description": "Default: true",
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "type": true,
+              "description": true,
+              "required": true,
+              "max_length": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "int"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "type": true,
+              "description": true,
+              "required": true,
+              "min": {
+                "type": "integer"
+              },
+              "max": {
+                "type": "integer"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "double"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "type": true,
+              "description": true,
+              "required": true,
+              "min": {
+                "$ref": "#/definitions/decimal"
+              },
+              "max": {
+                "$ref": "#/definitions/decimal"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "enum"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "enum"
+            ],
+            "properties": {
+              "type": true,
+              "description": true,
+              "required": true,
+              "enum": {
+                "description": "Name of an enum defined under the top-level enums key.",
+                "$ref": "#/definitions/name"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "bool",
+                  "list<string>"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "type": true,
+              "description": true,
+              "required": true
+            },
+            "additionalProperties": false
+          }
+        }
+      ]
+    }
+  }
+}

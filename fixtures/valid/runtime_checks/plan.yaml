@@ -1,0 +1,24 @@
+version: 1
+
+targets:
+  typescript:
+    runtime_checks: true
+
+events:
+  item_rated:
+    description: User rated an item.
+    params:
+      item_id:
+        type: string
+        max_length: 64
+      stars:
+        type: int
+        min: 1
+        max: 5
+      weight:
+        type: double
+        min: -1.5
+      review_length:
+        type: int
+        required: false
+        min: 0

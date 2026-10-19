@@ -1,0 +1,6 @@
+# Golden files are compared byte for byte, so git must never rewrite line endings.
+* text=auto eol=lf
+
+# These fixtures contain deliberately broken bytes (lone CR, invalid UTF-8).
+fixtures/invalid/lone_cr/plan.yaml -text
+fixtures/invalid/invalid_utf8/plan.yaml -text

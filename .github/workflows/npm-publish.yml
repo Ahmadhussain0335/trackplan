@@ -1,0 +1,29 @@
+# Publishes the TypeScript package to npm with provenance. Run it manually
+# from the Actions tab on a `ts-v*` tag after the release commit is pushed.
+# Requires an NPM_TOKEN repository secret (an npm automation token).
+name: Publish to npm
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    if: startsWith(github.ref, 'refs/tags/ts-v')
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ts
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
